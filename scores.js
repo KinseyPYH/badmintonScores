@@ -15,18 +15,19 @@ month = '01';
 day = '17';
 //var apiUrl = `https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`;
 //console.log(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`);
-var apiUrl = 'http://localhost:3000/url';
+var apiUrl; //= 'http://localhost:3000/url';
 // $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
 //     console.log(data);
 // });
-apiUrl = 'http://localhost:3000/scores'; //server url
+apiUrl = 'http://18.162.188.240:3000'; //server url
 
 //enter window
 window.onload = function() {
     console.log("LOADED");
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:3000/enter',
+        //url: 'http://18.162.188.240:3000/enter',
+        url: apiUrl + '/enter',
         success: function(data){
             console.log("Pageload success call");
             //$(".card #name1").html("HJFJW");
@@ -39,7 +40,7 @@ window.onload = function() {
 window.addEventListener('beforeunload', function(e) {
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:3000/leave',
+        url: apiUrl + '/leave',
         success: function(data){
             console.log("Page Unload success call");
         }
@@ -70,7 +71,7 @@ function callAPI() {
         //crossDomain: true,
         //headers: {'Access-Control-Allow-Origin':'*'},
         //dataType: 'jsonp',
-        url: apiUrl,
+        url: apiUrl + '/scores',
         success: function(data){
             console.log("SUCESS");
             console.log(data);
@@ -99,17 +100,50 @@ function showData(tournament) {
         console.log(match_details);
         if (match_details.sport_event_status.status != 'cancelled') {
             
+            var full_tournament_name;
+            var tournament_name;
+            var category;
+            var round;
+            var compDetails = match_details.sport_event.sport_event_context;
+            if (!compDetails.season) {
+                full_tournament_name = compDetails.competition.name;
+                tournament_name = full_tournament_name;
+                category = "N/A";
+                round = capitalizeFirstLetter(compDetails.round.name);
+            }
+
+            else {
+                full_tournament_name = compDetails.competition.name;
+                tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
+            
+                if (compDetails.competition.type = 'mixed_doubles') {
+                    compDetails.competition.type = 'doubles';
+                }
+                //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
+                category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
+                //round = match_details.sport_event.tournament_round.name;
+                round = capitalizeFirstLetter(compDetails.round.name);
+            }
+
         
             var competitors = match_details.sport_event.competitors;
             var homeCompObj = competitors[0];
-            var home_country_code = homeCompObj.players[0].country_code; 
-            var homeCompName = homeCompObj.name;
-        
-            if (homeCompName.length > 30) {
-                homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
-            }
             var awayCompObj = competitors[1];
-            var away_country_code = awayCompObj.players[0].country_code;
+            var home_country_code;
+            var away_country_code;
+            // if (compDetails.competition.type == 'doubles') {
+            if (category.includes('Singles')) {
+                home_country_code = homeCompObj.country_code;
+                away_country_code = awayCompObj.country_code;
+            }
+            else {
+                home_country_code = homeCompObj.players[0].country_code; 
+                away_country_code = awayCompObj.players[0].country_code;
+
+            }
+         
+            
+            var homeCompName = homeCompObj.name;
             var awayCompName = awayCompObj.name;
             var scores = match_details.sport_event_status.period_scores;
             var homeSetScore = match_details.sport_event_status.home_score;
@@ -127,31 +161,17 @@ function showData(tournament) {
                 homeScore3 = scoreSet3.home_score
                 awayScore3 = scoreSet3.away_score 
             }
+
+            if (homeCompName.length > 25) {
+                homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
+            }
+            if (awayCompName.length > 25) {
+                awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
+            }
            
-            var full_tournament_name;
-            var tournament_name;
-            var category;
-            var round;
-            var compDetails = match_details.sport_event.sport_event_context;
-            if (!compDetails.season) {
-                full_tournament_name = compDetails.competition.name;
-                tournament_name = full_tournament_name;
-                category = "N/A";
-                round = capitalizeFirstLetter(compDetails.round.name);
-            }
+            
             // var scoreSet3;
-            else {
-                full_tournament_name = compDetails.competition.name;
-                tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
-                if (compDetails.competition.type = 'mixed_doubles') {
-                    compDetails.competition.type = 'doubles';
-                }
-                category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
-                //category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
-                //round = match_details.sport_event.tournament_round.name;
-                round = capitalizeFirstLetter(compDetails.round.name);
-               
-            }
+            
             // console.log(tours[tour].sport_event.competitors);
             // console.log(tours[tour].sport_event_status.period_scores);
             // console.log('-----------------------------------------');

@@ -40,7 +40,34 @@ app.use(express.json());
 app.use(cors());
 app.listen(3000, () => {
  console.log("Server running on port 3000");
+ console.log(getDateTime());
 });
+
+function getDateTime() {
+  //var datetime = new Date().toLocaleString();
+  var m = new Date();
+  var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
+  var date = ("0" + m.getUTCDate()).slice(-2);
+  var hour = ("0" + m.getUTCHours()).slice(-2);
+  var min = ("0" + m.getUTCMinutes()).slice(-2);
+  var sec = ("0" + m.getUTCSeconds()).slice(-2); 
+  var dateString =
+    m.getUTCFullYear() + "/" +
+    month + "/" +
+    date + " " +
+    hour + ":" +
+    min + ":" +
+    sec;
+  var dateTimeJson = {
+    month : month,
+    date : date,
+    year : year
+
+  }
+  //return dateTimeJson;
+  return dateString;
+}
+
 
 app.get("/enter", (req, res, next) => {
     //res.jsonp(["Tony", "Lisa"]);
@@ -101,8 +128,15 @@ app.post("/scores", (req, res, next) => {
 })
 
 
+// GET API INFO EVERY THIRTY MIN
+var thirtyMin = 30*60*1000;
+//setInterval(getScores(), thirtyMin);
 
 
+// function printTime() {
+//   console.log(getDateTime());
+//   console.log(typeof thirtyMin);
+// }
 
 function getScores() {
   https.get(apiUrl, (resp) => {
@@ -115,15 +149,18 @@ function getScores() {
 
     // The whole response has been received. Print out the result.
     resp.on('end', () => {
+      
       allEventsPerDay = JSON.parse(data);
-      var tours = allEventsPerDay.results;
-      //console.log(allEventsPerDay.results);
-      for (var tour in tours) {
-          console.log(tours[tour]);
-          console.log(tours[tour].sport_event.competitors);
-          console.log(tours[tour].sport_event_status.period_scores);
-          console.log('-----------------------------------------');
-      }
+      var tours = allEventsPerDay.summaries;
+      res.send(tours);
+      // tData = tours;
+      // //console.log(allEventsPerDay.results);
+      // for (var tour in tours) {
+      //     console.log(tours[tour]);
+      //     //console.log(tours[tour].sport_event.competitors);
+      //     //console.log(tours[tour].sport_event_status.period_scores);
+      //     //console.log('-----------------------------------------');
+      // }
     });
 
   }).on("error", (err) => {

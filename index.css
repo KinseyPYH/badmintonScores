@@ -5,6 +5,11 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
+
+#Page_Title{
+  text-align:center;
+  margin-top: 5%;
+}
   
   /* Float four columns side by side */
 .column {
