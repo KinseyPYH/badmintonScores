@@ -108,7 +108,7 @@ app.post("/leave", (req,res,next) => {
 
 //call badminton api
 
-const https = require('https');
+
 
 app.post("/scores", (req, res, next) => {
   
