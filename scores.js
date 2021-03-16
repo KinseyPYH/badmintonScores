@@ -19,6 +19,7 @@ var apiUrl; //= 'http://localhost:3000/url';
 // $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
 //     console.log(data);
 // });
+//
 apiUrl = 'https://18.162.188.240'; //server url
 var corsHeader = { 'Access-Control-Allow-Origin': 'https://18.162.188.240'};
 //enter window
