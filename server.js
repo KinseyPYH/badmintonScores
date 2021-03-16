@@ -38,8 +38,8 @@ var options = {
   cert: fs.readFileSync('/home/ec2-user/.Key/badminton.crt')
 };
 https.createServer(options, function (req, res) {
-  // res.writeHead(200);
-  // res.end("hello world\n");
+  res.writeHead(200);
+  res.end("hello world\n");
   console.log("SERVER RUNNING HTTPS")
 }).listen(port);
 
