@@ -60,10 +60,10 @@ app.use(express.json());
 
 
 
-// app.listen(443, () => {
-//  console.log("Server running on port 443");
-//  console.log(getDateTime());
-// });
+app.listen(443, () => {
+ console.log("Server running on port 443");
+ console.log(getDateTime());
+});
 
 function getDateTime() {
   //var datetime = new Date().toLocaleString();
