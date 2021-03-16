@@ -19,7 +19,7 @@ var apiUrl; //= 'http://localhost:3000/url';
 // $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
 //     console.log(data);
 // });
-apiUrl = 'http://18.162.188.240:3000'; //server url
+apiUrl = 'https://18.162.188.240'; //server url
 
 //enter window
 window.onload = function() {
@@ -93,6 +93,7 @@ function callAPI() {
 function showData(tournament) {
     var tours = tournament;
     console.log("CALLED SHOW DATA");
+    $('.row').empty();
     for (var tour in tours) {
         
         

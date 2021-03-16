@@ -38,8 +38,8 @@ var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.listen(3000, () => {
- console.log("Server running on port 3000");
+app.listen(443, () => {
+ console.log("Server running on port 443");
  console.log(getDateTime());
 });
 
