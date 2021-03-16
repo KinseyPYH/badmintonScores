@@ -51,14 +51,14 @@ const cors = require('cors');
 var bodyParser = require('body-parser')
 var app = express();
 
-
+app.use(cors());
+app.options('*', cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 //app.use(cors({origin: 'https://www.badminton-scores.com'}));
 
-app.use(cors());
-app.options('*', cors());
+
 
 // app.listen(443, () => {
 //  console.log("Server running on port 443");
