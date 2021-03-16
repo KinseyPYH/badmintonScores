@@ -20,7 +20,7 @@ var apiUrl; //= 'http://localhost:3000/url';
 //     console.log(data);
 // });
 apiUrl = 'https://18.162.188.240'; //server url
-
+var corsHeader = { 'Access-Control-Allow-Origin': 'https://18.162.188.240'};
 //enter window
 window.onload = function() {
     console.log("LOADED");
@@ -28,6 +28,7 @@ window.onload = function() {
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
         dataType: 'json',
+        headers: corsHeader,
         url: apiUrl + '/enter',
         success: function(data){
             console.log("Pageload success call");
