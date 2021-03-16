@@ -1,6 +1,3 @@
-
-
-
 var access_level = 't';
 var version = '1';
 version = '2';
@@ -20,9 +17,9 @@ var apiUrl; //= 'http://localhost:3000/url';
 //     console.log(data);
 // });
 //
-apiUrl = 'http://www.mybwfscores.com'; //server url
-//apiUrl = 'https://18.162.188.240';
-//var corsHeader = { 'Access-Control-Allow-Origin': 'https://18.162.188.240'};
+//apiUrl = 'http://www.mybwfscores.com'; //server url
+apiUrl = 'http://18.162.188.240';
+var corsHeader = { 'Access-Control-Allow-Origin': 'http://18.162.188.240'};
 //enter window
 window.onload = function() {
     console.log("LOADED");
@@ -31,8 +28,8 @@ window.onload = function() {
     $.ajax({
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
-        dataType: 'json',
-        //headers: corsHeader,
+        dataType: 'jsonp',
+        headers: corsHeader,
         url: apiUrl + '/enter',
         success: function(data){
             console.log("Pageload success call");
