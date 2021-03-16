@@ -30,7 +30,7 @@ window.onload = function() {
     $.ajax({
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
-        dataType: 'jsonp',
+        dataType: 'json',
         //headers: corsHeader,
         url: apiUrl + '/enter',
         success: function(data){
