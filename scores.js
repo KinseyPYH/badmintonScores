@@ -25,6 +25,7 @@ var corsHeader = { 'Access-Control-Allow-Origin': 'https://18.162.188.240'};
 //enter window
 window.onload = function() {
     console.log("LOADED");
+    console.log("LOADED IN");
     $.ajax({
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
