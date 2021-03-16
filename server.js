@@ -32,16 +32,16 @@ var usersOnClient = 0;
 var tData = null; //tournament data
 var allEventsPerDay;
 var https = require('https');
-var fs = require('fs');
-var options = {
-  key: fs.readFileSync('/home/ec2-user/.Key/badminton.key'),
-  cert: fs.readFileSync('/home/ec2-user/.Key/badminton.crt')
-};
-https.createServer(options, function (req, res) {
-  res.writeHead(200);
-  res.end("hello world\n");
-  console.log("SERVER RUNNING HTTPS")
-}).listen(port);
+// var fs = require('fs');
+// var options = {
+//   key: fs.readFileSync('/home/ec2-user/.Key/badminton.key'),
+//   cert: fs.readFileSync('/home/ec2-user/.Key/badminton.crt')
+// };
+// https.createServer(options, function (req, res) {
+//   res.writeHead(200);
+//   res.end("hello world\n");
+//   console.log("SERVER RUNNING HTTPS")
+// }).listen(port);
 
 var express = require("express");
 const cors = require('cors');

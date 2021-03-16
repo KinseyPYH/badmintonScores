@@ -20,13 +20,14 @@ var apiUrl; //= 'http://localhost:3000/url';
 //     console.log(data);
 // });
 //
-apiUrl = 'https://www.mybwfscores.com'; //server url
+apiUrl = 'http://www.mybwfscores.com'; //server url
 //apiUrl = 'https://18.162.188.240';
 //var corsHeader = { 'Access-Control-Allow-Origin': 'https://18.162.188.240'};
 //enter window
 window.onload = function() {
     console.log("LOADED");
-    console.log("LOADED IN");
+    //console.log("LOADED IN");
+    
     $.ajax({
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
