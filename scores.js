@@ -27,6 +27,7 @@ window.onload = function() {
     $.ajax({
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
+        dataType: 'json',
         url: apiUrl + '/enter',
         success: function(data){
             console.log("Pageload success call");
@@ -40,6 +41,7 @@ window.onload = function() {
 window.addEventListener('beforeunload', function(e) {
     $.ajax({
         type: 'POST',
+        dataType: 'json',
         url: apiUrl + '/leave',
         success: function(data){
             console.log("Page Unload success call");
