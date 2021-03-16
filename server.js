@@ -38,6 +38,20 @@ var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
+app.all("/*", function (req, res, next) {
+
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Credentials",true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,X-Access-Token,X-Key,Authorization,X-Requested-With,Origin,Access-Control-Allow-Origin,Access-Control-Allow-Credentials');
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+  } else {
+    next();
+  }
+});
+
 app.listen(443, () => {
  console.log("Server running on port 443");
  console.log(getDateTime());
@@ -70,13 +84,7 @@ function getDateTime() {
 
 
 app.get("/enter", (req, res, next) => {
-  app.route('*')
-  .all(function(req, res, next) {
-    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-API-TOKEN, Content-Type, Authorization, Content-Length, X-Requested-With');
-  next();
-  })
+  
     //res.jsonp(["Tony", "Lisa"]);
     //res.json(["Tony", "Lisa"]);
   usersOnClient +=1;
