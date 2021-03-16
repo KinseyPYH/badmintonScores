@@ -87,7 +87,7 @@ function getDateTime() {
 }
 
 
-app.get("/enter", (req, res, next) => {
+app.get("/enter", cors(), (req, res, next) => {
   
     //res.jsonp(["Tony", "Lisa"]);
     //res.json(["Tony", "Lisa"]);
