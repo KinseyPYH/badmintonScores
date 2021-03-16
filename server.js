@@ -25,15 +25,30 @@ console.log(`https://api.sportradar.com/badminton/${access_level}/v${version}/${
 //         console.log(data);
 //     }
 // })
+
+
+var port = 443;
 var usersOnClient = 0;
 var tData = null; //tournament data
 var allEventsPerDay;
+var https = require('https');
+var fs = require('fs');
+var options = {
+  key: fs.readFileSync('/home/ec2-user/.Key/badminton.key'),
+  cert: fs.readFileSync('/home/ec2-user/.Key/badminton.crt')
+};
+https.createServer(options, function (req, res) {
+  // res.writeHead(200);
+  // res.end("hello world\n");
+  console.log("SERVER RUNNING HTTPS")
+}).listen(port);
+
 var express = require("express");
 const cors = require('cors');
 var bodyParser = require('body-parser')
-
-
 var app = express();
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -41,10 +56,10 @@ app.use(cors({origin: 'https://www.badminton-scores.com'}));
 
 
 
-app.listen(443, () => {
- console.log("Server running on port 443");
- console.log(getDateTime());
-});
+// app.listen(443, () => {
+//  console.log("Server running on port 443");
+//  console.log(getDateTime());
+// });
 
 function getDateTime() {
   //var datetime = new Date().toLocaleString();
