@@ -45,6 +45,9 @@ https.createServer(options, function (req, res) {
 
 var express = require("express");
 const cors = require('cors');
+const corsOptions = {
+  origin: 'https://www.badminton-scores.com',
+}
 var bodyParser = require('body-parser')
 var app = express();
 
@@ -52,7 +55,7 @@ var app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors({origin: 'https://www.badminton-scores.com'}));
+//app.use(cors({origin: 'https://www.badminton-scores.com'}));
 
 
 
@@ -87,7 +90,7 @@ function getDateTime() {
 }
 
 
-app.get("/enter", cors(), (req, res, next) => {
+app.get("/enter", cors(corsOptions), (req, res, next) => {
   
     //res.jsonp(["Tony", "Lisa"]);
     //res.json(["Tony", "Lisa"]);
