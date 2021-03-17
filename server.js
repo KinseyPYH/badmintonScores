@@ -71,17 +71,17 @@ httpsServer.listen(443, () => {
 //app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
 
-//app.options('*', cors());
+app.options('*', cors());
 
 
 //app.use(cors({origin: 'https://www.badminton-scores.com'}));
 
 
 
-app.listen(443, () => {
- console.log("Server running on port 443");
- console.log(getDateTime());
-});
+// app.listen(443, () => {
+//  console.log("Server running on port 443");
+//  console.log(getDateTime());
+// });
 
 function getDateTime() {
   //var datetime = new Date().toLocaleString();
