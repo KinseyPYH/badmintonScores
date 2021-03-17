@@ -73,7 +73,7 @@ setInterval(callAPI(), thirtyMin);
 function getDateTime() {
 //var datetime = new Date().toLocaleString();
     var m = new Date();
-    var year = m.getUTCFullYear();
+    var year = m.getUTCFullYear().toString();
     var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
     var date = ("0" + m.getUTCDate()).slice(-2);
     var hour = ("0" + m.getUTCHours()).slice(-2);
