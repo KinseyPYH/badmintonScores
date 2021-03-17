@@ -138,9 +138,9 @@ app.post("/scores", (req, res, next) => {
   console.log(req.body);
   console.log(req.body.APIyear);
   console.log(typeof req.body.APIyear);
-  APIyear = req.APIyear;
-  APImonth = req.APImonth;
-  APIday = req.APIday;
+  APIyear = req.body.APIyear;
+  APImonth = req.body.APImonth;
+  APIday = req.body.APIday;
   apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
   console.log(apiUrl);
   //console.log(res);
