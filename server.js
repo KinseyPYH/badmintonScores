@@ -42,16 +42,31 @@ var https = require('https');
 //   res.end("hello world\n");
 //   console.log("SERVER RUNNING HTTPS")
 // }).listen(port);
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.mybwfscores.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/www.mybwfscores.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/www.mybwfscores.com/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 var express = require("express");
-//const cors = require('cors');
+const cors = require('cors');
 // const corsOptions = {
 //   origin: 'https://www.badminton-scores.com',
 // }
 var bodyParser = require('body-parser')
 var app = express();
 
-app.use(express.static(__dirname, { dotfiles: 'allow' } ));
+
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(443, () => {
+	console.log('HTTPS Server running on port 443');
+});
+//app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
 //app.use(cors());
 //app.options('*', cors());
@@ -62,8 +77,8 @@ app.use(express.json());
 
 
 
-app.listen(3000, () => {
- console.log("Server running on port 3000");
+app.listen(443, () => {
+ console.log("Server running on port 443");
  console.log(getDateTime());
 });
 
@@ -93,7 +108,7 @@ function getDateTime() {
 }
 
 
-app.get("/enter", (req, res, next) => {
+app.get("/enter", cors(), (req, res, next) => {
   
     //res.jsonp(["Tony", "Lisa"]);
     //res.json(["Tony", "Lisa"]);
