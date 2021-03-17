@@ -106,6 +106,7 @@ function callAPI() {
     dateJson = getDateTime();
 
     var input = dateJson;
+    console.log(input);
 
     $.ajax({
         type: 'POST',
