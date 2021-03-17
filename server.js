@@ -69,7 +69,7 @@ httpsServer.listen(443, () => {
 });
 //app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
-//app.use(cors());
+app.use(cors());
 //app.options('*', cors());
 
 app.use(express.urlencoded({ extended: true }));
