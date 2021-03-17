@@ -140,7 +140,7 @@ app.post("/scores", (req, res, next) => {
   APImonth = req.APImonth;
   APIday = req.APIday;
   apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
-  
+  console.log(res);
   // var thing = [];
   // thing.push("HI");
   // thing.push("STUPID");
