@@ -134,7 +134,7 @@ app.post("/leave", (req,res,next) => {
 
 
 app.post("/scores", (req, res, next) => {
-  
+  console.log("JSON BODY");
   console.log(req.body);
   APIyear = req.APIyear.toString();
   APImonth = req.APImonth;
