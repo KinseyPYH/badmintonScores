@@ -17,7 +17,7 @@ var apiUrl;//= 'http://localhost:3000';
 //     console.log(data);
 // });
 //
-apiUrl = 'http://www.mybwfscores.com'; //server url
+apiUrl = 'https://www.mybwfscores.com'; //server url
 //apiUrl = 'http://18.162.188.240';
 var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
 //enter window
