@@ -51,8 +51,10 @@ const cors = require('cors');
 var bodyParser = require('body-parser')
 var app = express();
 
+app.use(express.static(__dirname, { dotfiles: 'allow' } ));
+
 app.use(cors());
-app.options('*', cors());
+//app.options('*', cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -60,8 +62,8 @@ app.use(express.json());
 
 
 
-app.listen(3000, () => {
- console.log("Server running on port 3000");
+app.listen(80, () => {
+ console.log("Server running on port 80");
  console.log(getDateTime());
 });
 

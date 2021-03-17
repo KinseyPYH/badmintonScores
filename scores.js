@@ -12,14 +12,14 @@ month = '01';
 day = '17';
 //var apiUrl = `https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`;
 //console.log(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`);
-var apiUrl; //= 'http://localhost:3000/url';
+var apiUrl;//= 'http://localhost:3000';
 // $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
 //     console.log(data);
 // });
 //
-//apiUrl = 'http://www.mybwfscores.com'; //server url
-apiUrl = 'http://18.162.188.240';
-var corsHeader = { 'Access-Control-Allow-Origin': 'http://18.162.188.240'};
+apiUrl = 'http://www.mybwfscores.com'; //server url
+//apiUrl = 'http://18.162.188.240';
+var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
 //enter window
 window.onload = function() {
     console.log("LOADED");
@@ -28,7 +28,7 @@ window.onload = function() {
     $.ajax({
         type: 'GET',
         //url: 'http://18.162.188.240:3000/enter',
-        dataType: 'jsonp',
+        dataType: 'json',
         headers: corsHeader,
         url: apiUrl + '/enter',
         success: function(data){
