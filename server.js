@@ -44,7 +44,7 @@ var https = require('https');
 // }).listen(port);
 
 var express = require("express");
-const cors = require('cors');
+//const cors = require('cors');
 // const corsOptions = {
 //   origin: 'https://www.badminton-scores.com',
 // }
@@ -53,7 +53,7 @@ var app = express();
 
 app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
-app.use(cors());
+//app.use(cors());
 //app.options('*', cors());
 
 app.use(express.urlencoded({ extended: true }));
