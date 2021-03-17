@@ -68,7 +68,7 @@ var tData;
 
 var thirtyMin //= 30*60*1000;
 thirtyMin = 60000
-setInterval(callAPI, thirtyMin);
+setInterval(callAPI(), thirtyMin);
 
 function getDateTime() {
 //var datetime = new Date().toLocaleString();
