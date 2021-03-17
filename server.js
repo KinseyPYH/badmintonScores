@@ -60,8 +60,9 @@ const cors = require('cors');
 // }
 var bodyParser = require('body-parser')
 var app = express();
-
-
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(443, () => {
@@ -69,11 +70,10 @@ httpsServer.listen(443, () => {
 });
 //app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
-app.use(cors());
+
 //app.options('*', cors());
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+
 //app.use(cors({origin: 'https://www.badminton-scores.com'}));
 
 
@@ -109,7 +109,7 @@ function getDateTime() {
 }
 
 
-app.get("/enter", cors(), (req, res, next) => {
+app.get("/enter", (req, res, next) => {
   
     //res.jsonp(["Tony", "Lisa"]);
     //res.json(["Tony", "Lisa"]);
