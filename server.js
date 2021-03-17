@@ -32,6 +32,7 @@ var usersOnClient = 0;
 var tData = null; //tournament data
 var allEventsPerDay;
 var https = require('https');
+const fs = require('fs');
 // var fs = require('fs');
 // var options = {
 //   key: fs.readFileSync('/home/ec2-user/.Key/badminton.key'),
