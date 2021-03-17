@@ -182,6 +182,7 @@ setInterval(function() {
 // }
 
 function getScores() {
+  console.log("Getting scores...");
   https.get(apiUrl, (resp) => {
     let data = '';
 
