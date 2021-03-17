@@ -1,14 +1,12 @@
 var access_level = 'trial';
 var version = '2';
 var language_code = 'en';
-var year, month, day;
+var APIyear, APImonth, APIday;
 var format = 'json';
 var api_key = '5snqwectfqhnkrzc7x93tf5j';
-year = '2021';
-month = '01';
-day = '16';
-var apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${year}-${month}-${day}/summaries.${format}?api_key=${api_key}`;
-console.log(`https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${year}-${month}-${day}/summaries.${format}?api_key=${api_key}`);
+
+var apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
+//console.log(`https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${year}-${month}-${day}/summaries.${format}?api_key=${api_key}`);
 
 // $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
 //     console.log(data);
@@ -68,8 +66,6 @@ const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
 });
-//app.use(express.static(__dirname, { dotfiles: 'allow' } ));
-
 
 app.options('*', cors());
 
@@ -104,6 +100,10 @@ function getDateTime() {
     year : year
 
   }
+  APIday = dateTimeJson.date;
+  APImonth = dateTimeJson.month;
+  APIyear = dateTimeJson.year;
+  apiURL = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
   //return dateTimeJson;
   return dateString;
 }
@@ -171,7 +171,9 @@ app.post("/scores", (req, res, next) => {
 
 // GET API INFO EVERY THIRTY MIN
 var thirtyMin = 30*60*1000;
-//setInterval(getScores(), thirtyMin);
+setInterval(function() {
+  getDateTime(),
+  getScores()}, thirtyMin);
 
 
 // function printTime() {
