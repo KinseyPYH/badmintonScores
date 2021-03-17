@@ -144,7 +144,7 @@ function showData(tournament) {
         
         var match_details = tours[tour];
         console.log(match_details);
-        if (match_details.sport_event_status.status != 'cancelled') {
+        if (match_details.sport_event_status.status != 'cancelled' && match_details.sport_event_status.status != "not_started" ) {
             
             var full_tournament_name;
             var tournament_name;
