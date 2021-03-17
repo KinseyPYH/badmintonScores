@@ -66,8 +66,8 @@ var tData;
 //     'format' : 'json'
 // }
 
-var thirtyMin //= 30*60*1000;
-thirtyMin = 60000
+var thirtyMin = 30*60*1000;
+//thirtyMin = 60000
 setInterval(callAPI(), thirtyMin);
 
 function getDateTime() {
