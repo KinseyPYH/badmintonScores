@@ -87,16 +87,16 @@ function getDateTime() {
         min + ":" +
         sec;
     var dateTimeJson = {
-        month : month,
-        date : date,
-        year : year
+        APImonth : month,
+        APIday : date,
+        APIyear : year
     }   
     APIday = dateTimeJson.date;
     APImonth = dateTimeJson.month;
     APIyear = dateTimeJson.year;
 //apiURL = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
 //return dateTimeJson;
-    return dateString;
+    return dateTimeJson;
 }
 
 
