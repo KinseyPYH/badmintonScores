@@ -170,7 +170,8 @@ app.post("/scores", (req, res, next) => {
 
 
 // GET API INFO EVERY THIRTY MIN
-var thirtyMin = 30*60*1000;
+var thirtyMin //= 30*60*1000;
+thirtyMin = 60000
 setInterval(function() {
   getDateTime(),
   getScores()}, thirtyMin);
