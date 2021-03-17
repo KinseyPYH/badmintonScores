@@ -56,17 +56,57 @@ window.addEventListener('beforeunload', function(e) {
 
 var tData;
 
-var input = {
-    'access_level' : 'trial',
-    'version' : '2',
-    'language_code' : 'en',
-    'year' : '2021',
-    'month' : '01',
-    'day' : '16',
-    'format' : 'json'
+// var input = {
+//     'access_level' : 'trial',
+//     'version' : '2',
+//     'language_code' : 'en',
+//     'year' : '2021',
+//     'month' : '01',
+//     'day' : '16',
+//     'format' : 'json'
+// }
+
+var thirtyMin //= 30*60*1000;
+thirtyMin = 60000
+setInterval(callAPI, thirtyMin);
+
+function getDateTime() {
+//var datetime = new Date().toLocaleString();
+    var m = new Date();
+    var year = m.getUTCFullYear();
+    var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
+    var date = ("0" + m.getUTCDate()).slice(-2);
+    var hour = ("0" + m.getUTCHours()).slice(-2);
+    var min = ("0" + m.getUTCMinutes()).slice(-2);
+    var sec = ("0" + m.getUTCSeconds()).slice(-2); 
+    var dateString =
+        m.getUTCFullYear() + "/" +
+        month + "/" +
+        date + " " +
+        hour + ":" +
+        min + ":" +
+        sec;
+    var dateTimeJson = {
+        month : month,
+        date : date,
+        year : year
+    }   
+    APIday = dateTimeJson.date;
+    APImonth = dateTimeJson.month;
+    APIyear = dateTimeJson.year;
+//apiURL = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
+//return dateTimeJson;
+    return dateString;
 }
 
+
+
 function callAPI() {
+
+    dateJson = getDateTime();
+
+    var input = dateJson;
+
     $.ajax({
         type: 'POST',
         data: JSON.stringify(input),
@@ -77,7 +117,7 @@ function callAPI() {
         //dataType: 'jsonp',
         url: apiUrl + '/scores',
         success: function(data){
-            console.log("SUCESS");
+            console.log("SUCCESS");
             console.log(data);
             var tours = data;
             tData = data;

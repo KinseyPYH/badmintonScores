@@ -82,6 +82,7 @@ app.options('*', cors());
 function getDateTime() {
   //var datetime = new Date().toLocaleString();
   var m = new Date();
+  var year = m.getUTCFullYear();
   var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
   var date = ("0" + m.getUTCDate()).slice(-2);
   var hour = ("0" + m.getUTCHours()).slice(-2);
@@ -135,6 +136,11 @@ app.post("/leave", (req,res,next) => {
 app.post("/scores", (req, res, next) => {
   
   console.log(req.body);
+  APIyear = req.APIyear;
+  APImonth = req.APImonth;
+  APIday = req.APIday;
+  apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
+  
   // var thing = [];
   // thing.push("HI");
   // thing.push("STUPID");
@@ -199,6 +205,7 @@ function getScores() {
       allEventsPerDay = JSON.parse(data);
       var tours = allEventsPerDay.summaries;
       res.send(tours);
+      
       // tData = tours;
       // //console.log(allEventsPerDay.results);
       // for (var tour in tours) {
