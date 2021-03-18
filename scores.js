@@ -88,6 +88,7 @@ function getDateTimeString() {
         date;
        
     return dateString;
+}
 
 function getDateTime() {
 //var datetime = new Date().toLocaleString();
@@ -255,14 +256,18 @@ function showData(tournament) {
 
         }    
 
-        else if (match_details.sport_event_status.status == 'cancelled' ) { status = "Cancelled"; }
+        else if (match_details.sport_event_status.status == 'cancelled' ) { 
+            status = "Cancelled"; 
+        }
 
 
         else if ( match_details.sport_event_status.status == "not_started" ) {
             status = "Not Started";
         }
+
+        else{}
           
-    }
+    
         
         
             // var competitors = match_details.sport_event.competitors;
