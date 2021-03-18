@@ -270,13 +270,23 @@ function showData(tournament) {
                     homeScore3 = scoreSet3.home_score
                     awayScore3 = scoreSet3.away_score 
                 }
-
                 if (homeCompName.length > 25) {
-                    homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
+                    homeCompName = homeCompObj.abbreviation;
                 }
                 if (awayCompName.length > 25) {
-                    awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
+                    awayCompName = awayCompObj.abbreviation;
                 }
+
+                if (category.includes('Doubles')) {
+                    if (homeCompName.length > 25) {
+                        homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
+                    }
+                    if (awayCompName.length > 25) {
+                        awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
+                    }
+                    
+                }
+                
             }
             else if (match_details.sport_event_status.match_status == "walkover") {
                 status = "Walkover";
