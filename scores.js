@@ -186,6 +186,8 @@ function showData(tournament) {
         var homeScore3 = null;
         var awayScore3 = null;
         var status;
+        var homeCompName = null;
+        var awayCompName = null;
         // ******************
         var compDetails = match_details.sport_event.sport_event_context;
         if (!compDetails.season) {
@@ -210,7 +212,8 @@ function showData(tournament) {
         competitors = match_details.sport_event.competitors;
         homeCompObj = competitors[0];
         awayCompObj = competitors[1];
-
+        homeCompName = homeCompObj.name;
+        awayCompName = awayCompObj.name;
         if (category.includes('Singles')) {
             home_country_code = homeCompObj.country_code;
             away_country_code = awayCompObj.country_code;
