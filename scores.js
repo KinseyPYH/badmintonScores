@@ -76,7 +76,7 @@ setInterval(callAPI(), thirtyMin);
 function getDateTimeString() {
     //var datetime = new Date().toLocaleString();
     var n = new Date();
-    var m = new Date(n.getTime() + 480*60000);
+    var m = new Date(n.getTime() + 4*80*60000);
     var year = m.getUTCFullYear().toString();
     var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
     var date = ("0" + m.getUTCDate()).slice(-2);
@@ -188,6 +188,8 @@ function showData(tournament) {
         var status = "";
         var homeCompName = "";
         var awayCompName = "";
+        var homeCompID = "";
+        var awayCompID = "";
         // ******************
         var compDetails = match_details.sport_event.sport_event_context;
         if (!compDetails.season) {
@@ -242,7 +244,10 @@ function showData(tournament) {
 
         if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live") {
             console.log("closed... or live");
-            status = "Finished";
+            if (match_details.sport_event_status.status == "closed") {
+                match_details.sport_event_status.status = "finished";
+            }
+            status = capitalizeFirstLetter(match_details.sport_event_status.status);
 
             if (match_details.sport_event_status.match_status != "walkover") {
                 scores = match_details.sport_event_status.period_scores;
