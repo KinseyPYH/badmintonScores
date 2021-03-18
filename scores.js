@@ -259,6 +259,9 @@ function showData(tournament) {
                     awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
                 }
             }
+            else if (match_details.sport_event_status.match_status != "walkover") {
+                status = "Walkover";
+            }
 
         }    
 
