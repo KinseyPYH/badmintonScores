@@ -270,11 +270,14 @@ function showData(tournament) {
                     homeScore3 = scoreSet3.home_score
                     awayScore3 = scoreSet3.away_score 
                 }
-                if (homeCompName.length > 25) {
-                    homeCompName = homeCompObj.abbreviation;
-                }
-                if (awayCompName.length > 25) {
-                    awayCompName = awayCompObj.abbreviation;
+
+                if (category.includes('Singles')) {
+                    if (homeCompName.length > 25) {
+                        homeCompName = homeCompObj.abbreviation;
+                    }
+                    if (awayCompName.length > 25) {
+                        awayCompName = awayCompObj.abbreviation;
+                    }
                 }
 
                 if (category.includes('Doubles')) {
