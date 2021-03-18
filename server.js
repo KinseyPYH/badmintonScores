@@ -193,7 +193,7 @@ app.post("/scores", (req, res, next) => {
 
 function getScores() {
   console.log("Getting scores...");
-  console.log(apiUrl);
+  //console.log(apiUrl);
   https.get(apiUrl, (resp) => {
     let data = '';
 
@@ -207,7 +207,8 @@ function getScores() {
       
       allEventsPerDay = JSON.parse(data);
       var tours = allEventsPerDay.summaries;
-      res.send(tours);
+      tData = tours;
+      //res.send(tours);
       
       // tData = tours;
       // //console.log(allEventsPerDay.results);

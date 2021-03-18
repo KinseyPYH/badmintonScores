@@ -11,6 +11,10 @@ body {
   margin-top: 5%;
 }
   
+#time {
+  text-align:center;
+  margin-top: 1%;
+}
   /* Float four columns side by side */
 .column {
 
@@ -63,7 +67,7 @@ th,
 }
 
 .long {
-  overflow:hidden;
+  text-overflow: clip;
 }
 
 [data-th="Comp"] {

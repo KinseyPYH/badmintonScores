@@ -22,6 +22,8 @@ apiUrl = 'https://www.mybwfscores.com'; //server url
 var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
 //enter window
 window.onload = function() {
+    var timedate = getDateTimeString();
+    $("#time").html(timedate);
     console.log("LOADED");
     //console.log("LOADED IN");
     
@@ -69,6 +71,23 @@ var tData;
 var thirtyMin = 30*60*1000;
 //thirtyMin = 60000
 setInterval(callAPI(), thirtyMin);
+
+function getDateTimeString() {
+    //var datetime = new Date().toLocaleString();
+    var n = new Date();
+    var m = new Date(n.getTime() + 480*60000);
+    var year = m.getUTCFullYear().toString();
+    var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
+    var date = ("0" + m.getUTCDate()).slice(-2);
+    var hour = ("0" + m.getUTCHours()).slice(-2);
+    var min = ("0" + m.getUTCMinutes()).slice(-2);
+    var sec = ("0" + m.getUTCSeconds()).slice(-2); 
+    var dateString =
+        m.getUTCFullYear() + "-" +
+        month + "-" +
+        date;
+       
+    return dateString;
 
 function getDateTime() {
 //var datetime = new Date().toLocaleString();
@@ -144,65 +163,84 @@ function showData(tournament) {
         
         var match_details = tours[tour];
         console.log(match_details);
-        if (match_details.sport_event_status.status != 'cancelled' && match_details.sport_event_status.status != "not_started" ) {
-            
-            var full_tournament_name;
-            var tournament_name;
-            var category;
-            var round;
-            var compDetails = match_details.sport_event.sport_event_context;
-            if (!compDetails.season) {
-                full_tournament_name = compDetails.competition.name;
-                tournament_name = full_tournament_name;
-                category = "N/A";
-                round = capitalizeFirstLetter(compDetails.round.name);
-            }
+        var full_tournament_name = null;
+        var tournament_name = null;
+        var category = null;
+        var round = null;
+        var competitors = null;
+        var homeCompObj = null;
+        var awayCompObj = null;
+        var home_country_code = null;
+        var away_country_code = null;
+        var scores = null;
+        var homeSetScore = null;
+        var awaySetScore = null;
+        var scoreSet1 = null;
+        var homeScore1 = null;
+        var awayScore1 = null;
+        var scoreSet2 = null;
+        var homeScore2 = null;
+        var awayScore2 = null;
+        var scoreSet3  = null;
+        var homeScore3 = null;
+        var awayScore3 = null;
+        var status;
+        // ******************
+        var compDetails = match_details.sport_event.sport_event_context;
+        if (!compDetails.season) {
+            full_tournament_name = compDetails.competition.name;
+            tournament_name = full_tournament_name;
+            category = "N/A";
+            round = capitalizeFirstLetter(compDetails.round.name);
+        }
 
-            else {
-                full_tournament_name = compDetails.competition.name;
-                tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
-            
-                if (compDetails.competition.type = 'mixed_doubles') {
-                    compDetails.competition.type = 'doubles';
-                }
-                //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
-                category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
-                //round = match_details.sport_event.tournament_round.name;
-                round = capitalizeFirstLetter(compDetails.round.name);
-            }
-
+        else {
+            full_tournament_name = compDetails.competition.name;
+            tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
         
-            var competitors = match_details.sport_event.competitors;
-            var homeCompObj = competitors[0];
-            var awayCompObj = competitors[1];
-            var home_country_code;
-            var away_country_code;
-            // if (compDetails.competition.type == 'doubles') {
-            if (category.includes('Singles')) {
-                home_country_code = homeCompObj.country_code;
-                away_country_code = awayCompObj.country_code;
+            if (compDetails.competition.type = 'mixed_doubles') {
+                compDetails.competition.type = 'doubles';
             }
-            else {
-                home_country_code = homeCompObj.players[0].country_code; 
-                away_country_code = awayCompObj.players[0].country_code;
+            //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
+            category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
+            //round = match_details.sport_event.tournament_round.name;
+            round = capitalizeFirstLetter(compDetails.round.name);
+        }
+        competitors = match_details.sport_event.competitors;
+        homeCompObj = competitors[0];
+        awayCompObj = competitors[1];
 
+        if (category.includes('Singles')) {
+            home_country_code = homeCompObj.country_code;
+            away_country_code = awayCompObj.country_code;
+            if (category == 'Singles') {
+                category = "Men Singles";
             }
-         
+        }
+        else {
+            home_country_code = homeCompObj.players[0].country_code; 
+            away_country_code = awayCompObj.players[0].country_code;
+            if (category == "Doubles") {
+                category = "Men Doubles";
+            }
+        }
+        //***** */
+
+        if (match_details.sport_event_status == "closed") {
             
-            var homeCompName = homeCompObj.name;
-            var awayCompName = awayCompObj.name;
-            var scores = match_details.sport_event_status.period_scores;
-            var homeSetScore = match_details.sport_event_status.home_score;
-            var awaySetScore = match_details.sport_event_status.away_score;
-            var scoreSet1 = scores[0];
-            var homeScore1 = scoreSet1.home_score;
-            var awayScore1 = scoreSet1.away_score;
-            var scoreSet2 = scores[1];
-            var homeScore2 = scoreSet2.home_score;
-            var awayScore2 = scoreSet2.away_score;
-            var scoreSet3 = scores[2] ?? null;
-            var homeScore3 = "";
-            var awayScore3 = "";
+            status = "Closed";
+            scores = match_details.sport_event_status.period_scores;
+            homeSetScore = match_details.sport_event_status.home_score;
+            awaySetScore = match_details.sport_event_status.away_score;
+            scoreSet1 = scores[0];
+            homeScore1 = scoreSet1.home_score;
+            awayScore1 = scoreSet1.away_score;
+            scoreSet2 = scores[1];
+            homeScore2 = scoreSet2.home_score;
+            awayScore2 = scoreSet2.away_score;
+            scoreSet3 = scores[2] ?? null;
+            homeScore3 = "";
+            awayScore3 = "";
             if (scoreSet3 != null) {
                 homeScore3 = scoreSet3.home_score
                 awayScore3 = scoreSet3.away_score 
@@ -214,6 +252,30 @@ function showData(tournament) {
             if (awayCompName.length > 25) {
                 awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
             }
+
+        }    
+
+        else if (match_details.sport_event_status.status == 'cancelled' ) { status = "Cancelled"; }
+
+
+        else if ( match_details.sport_event_status.status == "not_started" ) {
+            status = "Not Started";
+        }
+          
+    }
+        
+        
+            // var competitors = match_details.sport_event.competitors;
+            // var homeCompObj = competitors[0];
+            // var awayCompObj = competitors[1];
+            
+            // if (compDetails.competition.type == 'doubles') {
+            
+         
+            
+            // var homeCompName = homeCompObj.name;
+            // var awayCompName = awayCompObj.name;
+            
            
             
             // var scoreSet3;
@@ -223,55 +285,56 @@ function showData(tournament) {
             // console.log('-----------------------------------------');
             //$(".card #name1").innerHTML(tours[tour].sport_event.competitors[0].name);
             //$('.card ')
-            var matchCard = `<div class="column">` +
-                `<div class="card">` +
-                    `<table>` +
-                        `<h2> ${tournament_name} </h2>` +
-                        `<h3> ${round} - ${category} </h3>` +
+        var matchCard = `<div class="column">` +
+            `<div class="card">` +
+                `<table>` +
+                    `<h2> ${tournament_name} </h2>` +
+                    `<h3> ${round} - ${category} </h3>` +
+                    
+                    `<thead>` +
+                    `<tr>` +
+                        `<th></th>` +
+                        `<th></th>` +
+                        `<th>1</th>` +
+                        `<th>2</th>` +
+                        `<th>3</th>` +
+                        `<th>Final</th>` +
+                    `</tr>` +
+                    `</thead>` +
+                    `<tbody>` +
+                    `<tr>` +
+                        `<td data-th="CTR"> ${home_country_code} </td>` +
+                        `<td data-th="Comp">` +
+                        `<span class="long">${homeCompName}</span>` +
                         
-                        `<thead>` +
-                        `<tr>` +
-                            `<th></th>` +
-                            `<th></th>` +
-                            `<th>1</th>` +
-                            `<th>2</th>` +
-                            `<th>3</th>` +
-                            `<th>Final</th>` +
-                        `</tr>` +
-                        `</thead>` +
-                        `<tbody>` +
-                        `<tr>` +
-                            `<td data-th="CTR"> ${home_country_code} </td>` +
-                            `<td data-th="Comp">` +
-                            `<span class="long">${homeCompName}</span>` +
-                            
-                            `</td>` +
-                            `<td data-th="1">${homeScore1}</td>` +
-                            `<td data-th="2">${homeScore2}</td>` +
-                            `<td data-th="3">${homeScore3}</td>` +
-                            `<td data-th="Final">${homeSetScore}</td>` +
-                        `</tr>` +
-                        `<tr>` +
-                            `<td data-th="CTR"> ${away_country_code} </td>` +
-                            `<td data-th="Comp">` +
-                            `<span class="long">${awayCompName}</span>`+
-                            `</td>`+
-                            `<td data-th="1">${awayScore1}</td>` +
-                            `<td data-th="2">${awayScore2}</td>` +
-                            `<td data-th="3">${awayScore3}</td>` +
-                            `<td data-th="Final">${awaySetScore}</td>` +
-                        `</tr>` +
-                        `</tbody>` +
-                    `</table>` +
-                `</div>` +
-            `</div>`;
+                        `</td>` +
+                        `<td data-th="1">${homeScore1}</td>` +
+                        `<td data-th="2">${homeScore2}</td>` +
+                        `<td data-th="3">${homeScore3}</td>` +
+                        `<td data-th="Final">${homeSetScore}</td>` +
+                    `</tr>` +
+                    `<tr>` +
+                        `<td data-th="CTR"> ${away_country_code} </td>` +
+                        `<td data-th="Comp">` +
+                        `<span class="long">${awayCompName}</span>`+
+                        `</td>`+
+                        `<td data-th="1">${awayScore1}</td>` +
+                        `<td data-th="2">${awayScore2}</td>` +
+                        `<td data-th="3">${awayScore3}</td>` +
+                        `<td data-th="Final">${awaySetScore}</td>` +
+                    `</tr>` +
+                    `</tbody>` +
+                    `<h4> ${startTime} </h4>` +
+                `</table>` +
+            `</div>` +
+        `</div>`;
 
-            $('.row').append(matchCard);
-        }
+        $('.row').append(matchCard);
+        
     }
 }
     
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+}
   
