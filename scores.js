@@ -20,10 +20,11 @@ var apiUrl;//= 'http://localhost:3000';
 apiUrl = 'https://www.mybwfscores.com'; //server url
 //apiUrl = 'http://18.162.188.240';
 var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
+var startTime = null;
 //enter window
 window.onload = function() {
-    var timedate = getDateTimeString();
-    $("#time").html(timedate);
+    startTime = getDateTimeString();
+    $("#time").html(startTime);
     console.log("LOADED");
     //console.log("LOADED IN");
     
