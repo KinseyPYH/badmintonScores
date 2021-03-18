@@ -231,8 +231,8 @@ function showData(tournament) {
         }
         //***** */
 
-        if (match_details.sport_event_status == "closed") {
-            
+        if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live") {
+            console.log("closed... or live");
             status = "Closed";
             scores = match_details.sport_event_status.period_scores;
             homeSetScore = match_details.sport_event_status.home_score;
