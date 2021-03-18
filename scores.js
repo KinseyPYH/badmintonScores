@@ -234,28 +234,31 @@ function showData(tournament) {
         if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live") {
             console.log("closed... or live");
             status = "Closed";
-            scores = match_details.sport_event_status.period_scores;
-            homeSetScore = match_details.sport_event_status.home_score;
-            awaySetScore = match_details.sport_event_status.away_score;
-            scoreSet1 = scores[0];
-            homeScore1 = scoreSet1.home_score;
-            awayScore1 = scoreSet1.away_score;
-            scoreSet2 = scores[1];
-            homeScore2 = scoreSet2.home_score;
-            awayScore2 = scoreSet2.away_score;
-            scoreSet3 = scores[2] ?? null;
-            homeScore3 = "";
-            awayScore3 = "";
-            if (scoreSet3 != null) {
-                homeScore3 = scoreSet3.home_score
-                awayScore3 = scoreSet3.away_score 
-            }
 
-            if (homeCompName.length > 25) {
-                homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
-            }
-            if (awayCompName.length > 25) {
-                awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
+            if (match_details.sport_event_status.match_status == "walkover") {
+                scores = match_details.sport_event_status.period_scores;
+                homeSetScore = match_details.sport_event_status.home_score;
+                awaySetScore = match_details.sport_event_status.away_score;
+                scoreSet1 = scores[0];
+                homeScore1 = scoreSet1.home_score;
+                awayScore1 = scoreSet1.away_score;
+                scoreSet2 = scores[1];
+                homeScore2 = scoreSet2.home_score;
+                awayScore2 = scoreSet2.away_score;
+                scoreSet3 = scores[2] ?? null;
+                homeScore3 = "";
+                awayScore3 = "";
+                if (scoreSet3 != null) {
+                    homeScore3 = scoreSet3.home_score
+                    awayScore3 = scoreSet3.away_score 
+                }
+
+                if (homeCompName.length > 25) {
+                    homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
+                }
+                if (awayCompName.length > 25) {
+                    awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
+                }
             }
 
         }    
