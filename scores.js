@@ -222,8 +222,18 @@ function showData(tournament) {
             }
         }
         else {
-            home_country_code = homeCompObj.players[0].country_code; 
-            away_country_code = awayCompObj.players[0].country_code;
+            if (homeCompObj.players) {
+                home_country_code = homeCompObj.players[0].country_code; 
+            }
+            else {
+                home_country_code = "N/A";
+            }
+            if (awayCompObj.players){
+                away_country_code = awayCompObj.players[0].country_code;
+            }
+            else{
+                away_country_code = "N/A";
+            }
             if (category == "Doubles") {
                 category = "Men Doubles";
             }
