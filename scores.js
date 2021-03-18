@@ -162,33 +162,32 @@ function showData(tournament) {
     $('.row').empty();
     for (var tour in tours) {
         
-        
         var match_details = tours[tour];
         console.log(match_details);
-        var full_tournament_name = null;
-        var tournament_name = null;
-        var category = null;
-        var round = null;
-        var competitors = null;
-        var homeCompObj = null;
-        var awayCompObj = null;
-        var home_country_code = null;
-        var away_country_code = null;
-        var scores = null;
-        var homeSetScore = null;
-        var awaySetScore = null;
-        var scoreSet1 = null;
-        var homeScore1 = null;
-        var awayScore1 = null;
-        var scoreSet2 = null;
-        var homeScore2 = null;
-        var awayScore2 = null;
-        var scoreSet3  = null;
-        var homeScore3 = null;
-        var awayScore3 = null;
-        var status;
-        var homeCompName = null;
-        var awayCompName = null;
+        var full_tournament_name = "";
+        var tournament_name = "";
+        var category = "";
+        var round = "";
+        var competitors = "";
+        var homeCompObj = "";
+        var awayCompObj = "";
+        var home_country_code = "";
+        var away_country_code = "";
+        var scores = "";
+        var homeSetScore = "";
+        var awaySetScore = "";
+        var scoreSet1 = "";
+        var homeScore1 = "";
+        var awayScore1 = "";
+        var scoreSet2 = "";
+        var homeScore2 = "";
+        var awayScore2 = "";
+        var scoreSet3  = "";
+        var homeScore3 = "";
+        var awayScore3 = "";
+        var status = "";
+        var homeCompName = "";
+        var awayCompName = "";
         // ******************
         var compDetails = match_details.sport_event.sport_event_context;
         if (!compDetails.season) {
@@ -233,7 +232,7 @@ function showData(tournament) {
 
         if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live") {
             console.log("closed... or live");
-            status = "Closed";
+            status = "Finished";
 
             if (match_details.sport_event_status.match_status != "walkover") {
                 scores = match_details.sport_event_status.period_scores;
@@ -336,7 +335,7 @@ function showData(tournament) {
                         `<td data-th="Final">${awaySetScore}</td>` +
                     `</tr>` +
                     `</tbody>` +
-                    `<h4> ${startTime} </h4>` +
+                    `<h4> ${startTime} - ${status} </h4>` +
                 `</table>` +
             `</div>` +
         `</div>`;
