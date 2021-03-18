@@ -242,7 +242,7 @@ function showData(tournament) {
         }
         //***** */
 
-        if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live") {
+        if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live" || atch_details.sport_event_status.status == "finished") {
             console.log("closed... or live");
             if (match_details.sport_event_status.status == "closed") {
                 match_details.sport_event_status.status = "finished";
