@@ -241,9 +241,13 @@ function showData(tournament) {
                 scoreSet1 = scores[0];
                 homeScore1 = scoreSet1.home_score;
                 awayScore1 = scoreSet1.away_score;
-                scoreSet2 = scores[1];
+                scoreSet2 = scores[1] ?? null;
+                homeScore2 = "";
+                awayScore2 = "";
+                if (scoreSet2 != null) {
                 homeScore2 = scoreSet2.home_score;
                 awayScore2 = scoreSet2.away_score;
+                }
                 scoreSet3 = scores[2] ?? null;
                 homeScore3 = "";
                 awayScore3 = "";
