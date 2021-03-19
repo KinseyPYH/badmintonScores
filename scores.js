@@ -249,7 +249,7 @@ function showData(tournament) {
             }
             status = capitalizeFirstLetter(match_details.sport_event_status.status);
 
-            if (match_details.sport_event_status.match_status != "walkover") {
+            if (match_details.sport_event_status.winning_reason != "walkover") {
                 scores = match_details.sport_event_status.period_scores;
                 homeSetScore = match_details.sport_event_status.home_score;
                 awaySetScore = match_details.sport_event_status.away_score;
@@ -291,7 +291,7 @@ function showData(tournament) {
                 }
                 
             }
-            else if (match_details.sport_event_status.match_status == "walkover") {
+            else if (match_details.sport_event_status.match_status == "walkover" || match_details.sport_event_status.winning_reason == "walkover") {
                 status = "Walkover";
             }
 
