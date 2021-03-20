@@ -96,10 +96,10 @@ app.post("/leave", (req,res,next) => {
 
 
 app.post("/scores", (req, res, next) => {
-  console.log("JSON BODY");
-  console.log(req.body);
-  console.log(req.body.APIyear);
-  console.log(typeof req.body.APIyear);
+  // console.log("JSON BODY");
+  // console.log(req.body);
+  // console.log(req.body.APIyear);
+  // console.log(typeof req.body.APIyear);
   APIyear = req.body.APIyear;
   APImonth = req.body.APImonth;
   APIday = req.body.APIday;
