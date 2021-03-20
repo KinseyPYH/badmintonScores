@@ -16,7 +16,7 @@ var startTime = null;
 //enter window
 window.onload = function() {
     var date = getDateTimeString();
-    $("#time").html(date);
+    $("#time").html(date + " (Local Times)");
     console.log("LOADED");
     //console.log("LOADED IN");
     
@@ -382,10 +382,19 @@ function APITimeToLocal(apitime){
     var ridofPlus = apitime.split('+');
     var utcTime = ridofPlus[0];
     var start_time = new Date(utcTime + 'Z');
+    console.log(start_time);
     start_time = start_time.toString();
-    var splitTimes = start_time.split('-');
-    var dateAndTime = splitTimes[2].split('T');
-    var time = dateAndTime[1];
-    realStartTime = splitTimes[0] + '-' + splitTimes[1] + '-' + dateAndTime[0] + ": " +  + time;  
+    var splitTimes = start_time.split(' ');
+    var month = splitTimes[1];
+    var date = splitTimes[2];
+    var year = splitTimes[3];
+    var time = splitTimes[4];
+    time = time.split(':');
+    var hour = time[0];
+    var minute = time[1];
+    
+   
+    realStartTime = month + " " + date + " " + hour + ":" + minute;
+    console.log("real: " + realStartTime);
     return realStartTime;
 }
