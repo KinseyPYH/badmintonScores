@@ -5,26 +5,18 @@ var language_code = 'en';
 var year, month, day;
 var format = 'json';
 var api_key = '5snqwectfqhnkrzc7x93tf5j';
-year = '2021';
-//month = '03';
-//day = '07';
-month = '01';
-day = '17';
-//var apiUrl = `https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`;
-//console.log(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`);
+
+
 var apiUrl;//= 'http://localhost:3000';
-// $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
-//     console.log(data);
-// });
-//
+
 apiUrl = 'https://www.mybwfscores.com'; //server url
 //apiUrl = 'http://18.162.188.240';
 var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
 var startTime = null;
 //enter window
 window.onload = function() {
-    startTime = getDateTimeString();
-    $("#time").html(startTime);
+    var date = getDateTimeString();
+    $("#time").html(date);
     console.log("LOADED");
     //console.log("LOADED IN");
     
@@ -58,16 +50,6 @@ window.addEventListener('beforeunload', function(e) {
 
 
 var tData;
-
-// var input = {
-//     'access_level' : 'trial',
-//     'version' : '2',
-//     'language_code' : 'en',
-//     'year' : '2021',
-//     'month' : '01',
-//     'day' : '16',
-//     'format' : 'json'
-// }
 
 var thirtyMin = 30*60*1000;
 //thirtyMin = 60000
@@ -190,6 +172,10 @@ function showData(tournament) {
         var awayCompName = "";
         var homeCompID = "";
         var awayCompID = "";
+        var matchTime = "";
+        if (match_details.sport_event.start_time) {
+            matchTime = APITimeToLocal(match_details.sport_event.start_time);
+        }
         // ******************
         var compDetails = match_details.sport_event.sport_event_context;
         if (!compDetails.season) {
@@ -370,8 +356,10 @@ function showData(tournament) {
                         `<td data-th="Final">${awaySetScore}</td>` +
                     `</tr>` +
                     `</tbody>` +
-                    `<h4> ${startTime} - ${status} </h4>` +
+                    
                 `</table>` +
+                // `<h4> ${startTime} - ${status} </h4>` +
+                `<h4> ${matchTime} - ${status} </h4>` +
             `</div>` +
         `</div>`;
 
@@ -384,3 +372,20 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
   
+function APITimeToLocal(apitime){
+    //2021-03-20T13:00:00+00:00
+    // const timeParts = apitime.split('-');
+    // var dateAndTime = timeParts[2].split('T');
+    // var Time = dateAndTime[1];
+    // var realTime = Time.substr(0,Time.indexOf('+'));
+    // var start_time = timeParts[0] + '-' + timeParts[1] + '-' + Time[0] + " " + realTime;
+    var ridofPlus = apitime.split('+');
+    var utcTime = ridofPlus[0];
+    var start_time = new Date(utcTime + 'Z');
+    start_time = start_time.toString();
+    var splitTimes = start_time.split('-');
+    var dateAndTime = splitTimes[2].split('T');
+    var time = dateAndTime[1];
+    realStartTime = splitTimes[0] + '-' + splitTimes[1] + '-' + dateAndTime[0] + ": " +  + time;  
+    return realStartTime;
+}

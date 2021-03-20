@@ -6,23 +6,6 @@ var format = 'json';
 var api_key = '5snqwectfqhnkrzc7x93tf5j';
 
 var apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
-//console.log(`https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${year}-${month}-${day}/summaries.${format}?api_key=${api_key}`);
-
-// $.getJSON(`https://api.sportradar.com/badminton-${access_level}${version}/${language_code}/schedules/${year}-${month}-${day}/results.${format}?api_key=${api_key}`, function(data) {
-//     console.log(data);
-// });
-
-// $.ajax({
-//     crossOrigin: true,
-//     type: 'GET',
-    
-//     //crossDomain: true,
-//    // dataType: 'json',
-//     url: apiUrl,
-//     success: function(data){
-//         console.log(data);
-//     }
-// })
 
 
 var port = 443;
@@ -31,16 +14,6 @@ var tData = null; //tournament data
 var allEventsPerDay;
 var https = require('https');
 const fs = require('fs');
-// var fs = require('fs');
-// var options = {
-//   key: fs.readFileSync('/home/ec2-user/.Key/badminton.key'),
-//   cert: fs.readFileSync('/home/ec2-user/.Key/badminton.crt')
-// };
-// https.createServer(options, function (req, res) {
-//   res.writeHead(200);
-//   res.end("hello world\n");
-//   console.log("SERVER RUNNING HTTPS")
-// }).listen(port);
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.mybwfscores.com/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/www.mybwfscores.com/cert.pem', 'utf8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/www.mybwfscores.com/chain.pem', 'utf8');
@@ -53,31 +26,20 @@ const credentials = {
 
 var express = require("express");
 const cors = require('cors');
-// const corsOptions = {
-//   origin: 'https://www.badminton-scores.com',
-// }
 var bodyParser = require('body-parser')
 var app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.options('*', cors());
 const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
 });
 
-app.options('*', cors());
 
 
-//app.use(cors({origin: 'https://www.badminton-scores.com'}));
-
-
-
-// app.listen(443, () => {
-//  console.log("Server running on port 443");
-//  console.log(getDateTime());
-// });
 
 function getDateTime() {
   //var datetime = new Date().toLocaleString();
@@ -165,7 +127,7 @@ app.post("/scores", (req, res, next) => {
       tData = tours;
       //console.log(allEventsPerDay.results);
       for (var tour in tours) {
-          console.log(tours[tour]);
+          //console.log(tours[tour]);
           //console.log(tours[tour].sport_event.competitors);
           //console.log(tours[tour].sport_event_status.period_scores);
           //console.log('-----------------------------------------');
