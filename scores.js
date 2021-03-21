@@ -228,7 +228,7 @@ function showData(tournament) {
         }
         //***** */
 
-        if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live" || match_details.sport_event_status.status == "finished") {
+        if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live" || match_details.sport_event_status.status == "finished" || match_details.sport_event_status.status == "ended") {
             console.log("closed... or live");
             if (match_details.sport_event_status.status == "closed") {
                 match_details.sport_event_status.status = "finished";
