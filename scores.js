@@ -142,6 +142,11 @@ function showData(tournament) {
     var tours = tournament;
     console.log("CALLED SHOW DATA");
     $('.row').empty();
+    if (tours.length == 0 ) {
+        document.getElementById("No_Matches").style.display = 'block';
+        return;
+    }
+    
     for (var tour in tours) {
         
         var match_details = tours[tour];

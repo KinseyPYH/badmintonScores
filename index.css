@@ -10,7 +10,12 @@ body {
   text-align:center;
   margin-top: 5%;
 }
-  
+ 
+#No_Matches{
+  text-align:center;
+  margin-top: 5%;
+}
+
 #time {
   text-align:center;
   margin-top: 1%;
