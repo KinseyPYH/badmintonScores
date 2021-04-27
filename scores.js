@@ -4,7 +4,7 @@ version = '2';
 var language_code = 'en';
 var year, month, day;
 var format = 'json';
-var api_key = '5snqwectfqhnkrzc7x93tf5j';
+//var api_key = '5snqwectfqhnkrzc7x93tf5j';
 
 
 var apiUrl;//= 'http://localhost:3000';
@@ -200,7 +200,11 @@ function showData(tournament) {
             //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
             category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
             //round = match_details.sport_event.tournament_round.name;
-            round = capitalizeFirstLetter(compDetails.round.name);
+            if (compDetails.round.name) {
+                round = capitalizeFirstLetter(compDetails.round.name);
+            }
+            
+            
         }
         competitors = match_details.sport_event.competitors;
         homeCompObj = competitors[0];
