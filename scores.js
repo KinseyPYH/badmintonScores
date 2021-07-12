@@ -30,6 +30,9 @@ window.onload = function() {
             console.log("Pageload success call");
             //$(".card #name1").html("HJFJW");
             showData(data);
+        },
+        error: function() {
+            console.log("Pageload fail");
         }
     })
 }
