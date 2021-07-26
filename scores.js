@@ -202,6 +202,7 @@ function showData(tournament) {
             }
             //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
             category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
+            category = category.replace(/,/g, '')
             //round = match_details.sport_event.tournament_round.name;
             if (compDetails.round.name) {
                 round = capitalizeFirstLetter(compDetails.round.name);
@@ -333,7 +334,7 @@ function showData(tournament) {
             `<div class="card">` +
                 `<table>` +
                     `<h2> ${tournament_name} </h2>` +
-                    `<h3> ${round} - ${category} </h3>` +
+                    `<h3> ${round}  ${category} </h3>` +
                     
                     `<thead>` +
                     `<tr>` +
