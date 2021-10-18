@@ -3,7 +3,7 @@ var version = '2';
 var language_code = 'en';
 var APIyear, APImonth, APIday;
 var format = 'json';
-var api_key = 'uy8g8s654f6pyntetx3yzkt9';
+var api_key = 'gjkugkmygmrw4u794jq8dwvv';
 
 var apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
 
