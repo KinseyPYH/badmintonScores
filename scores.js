@@ -1,3 +1,6 @@
+//header("Access-Control-Allow-Origin: *");
+//const datepicker = require('js-datepicker')
+//import datepicker from 'js-datepicker'
 var access_level = 't';
 var version = '1';
 version = '2';
@@ -7,9 +10,9 @@ var format = 'json';
 //var api_key = '5snqwectfqhnkrzc7x93tf5j';
 
 
-var apiUrl;//= 'http://localhost:3000';
+var apiUrl = 'http://localhost:3000'; 
 
-apiUrl = 'https://www.mybwfscores.com'; //server url
+//apiUrl = 'https://www.mybwfscores.com'; //server url
 //apiUrl = 'http://18.162.188.240';
 var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
 var startTime = null;
@@ -17,7 +20,7 @@ var startTime = null;
 window.onload = function() {
     var date = getDateTimeString();
     $("#time").html(date + " (Local Times)");
-    console.log("LOADED");
+    console.log("Page Loaded");
     //console.log("LOADED IN");
     
     $.ajax({
@@ -27,12 +30,12 @@ window.onload = function() {
         headers: corsHeader,
         url: apiUrl + '/enter',
         success: function(data){
-            console.log("Pageload success call");
+            console.log("GET Scores: Success");
             //$(".card #name1").html("HJFJW");
             showData(data);
         },
         error: function() {
-            console.log("Pageload fail");
+            console.log("GET Scores: Fail");
         }
     })
 }
@@ -41,7 +44,7 @@ window.onload = function() {
 window.addEventListener('beforeunload', function(e) {
     $.ajax({
         type: 'POST',
-        dataType: 'json',
+        dataType: 'jsonp',
         url: apiUrl + '/leave',
         success: function(data){
             console.log("Page Unload success call");
@@ -54,9 +57,9 @@ window.addEventListener('beforeunload', function(e) {
 
 var tData;
 
-var thirtyMin = 30*60*1000;
+//var thirtyMin = 30*60*1000;
 //thirtyMin = 60000
-setInterval(callAPI(), thirtyMin);
+//setInterval(callAPI(), thirtyMin);
 
 function getDateTimeString() {
     //var datetime = new Date().toLocaleString();
@@ -76,30 +79,46 @@ function getDateTimeString() {
     return dateString;
 }
 
-function getDateTime() {
+function getDateTime(dateToGet, today) {
 //var datetime = new Date().toLocaleString();
-    var m = new Date();
-    var year = m.getUTCFullYear().toString();
-    var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
-    var date = ("0" + m.getUTCDate()).slice(-2);
-    var hour = ("0" + m.getUTCHours()).slice(-2);
-    var min = ("0" + m.getUTCMinutes()).slice(-2);
-    var sec = ("0" + m.getUTCSeconds()).slice(-2); 
-    var dateString =
-        m.getUTCFullYear() + "/" +
-        month + "/" +
-        date + " " +
-        hour + ":" +
-        min + ":" +
-        sec;
-    var dateTimeJson = {
-        APImonth : month,
-        APIday : date,
-        APIyear : year
-    }   
-    APIday = dateTimeJson.date;
-    APImonth = dateTimeJson.month;
-    APIyear = dateTimeJson.year;
+    var dateTimeJson;
+    if (today) {
+        var m = new Date();
+        var year = m.getUTCFullYear().toString();
+        var month = ("0" + (m.getUTCMonth()+1)).slice(-2);
+        var date = ("0" + m.getUTCDate()).slice(-2);
+        var hour = ("0" + m.getUTCHours()).slice(-2);
+        var min = ("0" + m.getUTCMinutes()).slice(-2);
+        var sec = ("0" + m.getUTCSeconds()).slice(-2); 
+        var dateString =
+            m.getUTCFullYear() + "/" +
+            month + "/" +
+            date + " " +
+            hour + ":" +
+            min + ":" +
+            sec;
+        dateTimeJson = {
+            APImonth : month,
+            APIday : date,
+            APIyear : year
+        }   
+        APIday = dateTimeJson.date;
+        APImonth = dateTimeJson.month;
+        APIyear = dateTimeJson.year;
+    }
+    else {
+        var m = dateToGet;
+        m = dateToGet.split('/');
+        var year = m[2];
+        var month = m[0];
+        var date = m[1];
+        dateTimeJson = {
+            APImonth : month,
+            APIday : date,
+            APIyear : year
+        }   
+    }
+    
 //apiURL = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
 //return dateTimeJson;
     return dateTimeJson;
@@ -107,9 +126,9 @@ function getDateTime() {
 
 
 
-function callAPI() {
+function callAPI(currentDate, today) {
 
-    dateJson = getDateTime();
+    dateJson = getDateTime(currentDate, today);
 
     var input = dateJson;
     console.log(input);
@@ -129,32 +148,38 @@ function callAPI() {
             var tours = data;
             tData = data;
             showData(tData); 
-        //     for (var tour in tours) {
-        //         console.log(tours[tour]);
-        //         console.log(tours[tour].sport_event.competitors);
-        //         console.log(tours[tour].sport_event_status.period_scores);
-        //         console.log('-----------------------------------------');
-        //         $(".Bruh").html(tours[tour].sport_event.competitors[0].name);
-        //     }
-        //     $(".Bruh").html(data[0]);
         }
     })
 }
 
 function showData(tournament) {
+    //$('.row').clear();
     var tours = tournament;
+    tours = tours.results;
+    console.log(tours);
     console.log("CALLED SHOW DATA");
     $('.row').empty();
     if (tours.length == 0 ) {
         document.getElementById("No_Matches").style.display = 'block';
         return;
     }
-    
+    else {
+        document.getElementById("No_Matches").style.display = 'none';
+    }
+    console.log(tours);
     for (var tour in tours) {
+        var match_details;
+        if (tours[tour].matchDetails) {
+            match_details = tours[tour].matchDetails;
+            console.log(match_details);
+        }
+        else {
+            match_details = tours[tour];
+        }
         
-        var match_details = tours[tour];
         console.log(match_details);
         var full_tournament_name = "";
+        var tournament_id;
         var tournament_name = "";
         var category = "";
         var round = "";
@@ -181,12 +206,12 @@ function showData(tournament) {
         var homeCompID = "";
         var awayCompID = "";
         var matchTime = "";
-        if (match_details.sport_event.start_time) {
-            matchTime = APITimeToLocal(match_details.sport_event.start_time);
+        if (match_details.sport_event.scheduled) {
+            matchTime = APITimeToLocal(match_details.sport_event.scheduled);
         }
         // ******************
-        var compDetails = match_details.sport_event.sport_event_context;
-        if (!compDetails.season) {
+        var compDetails = match_details.sport_event;
+        if (!compDetails.tournament) {
             full_tournament_name = compDetails.competition.name;
             tournament_name = full_tournament_name;
             category = "N/A";
@@ -194,19 +219,43 @@ function showData(tournament) {
         }
 
         else {
-            full_tournament_name = compDetails.competition.name;
-            tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
+            full_tournament_name = compDetails.tournament.name;
+            
+            if (full_tournament_name.includes(',')) {
+                tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
+            }
+            else {
+                tournament_name = full_tournament_name;
+            }
         
-            if (compDetails.competition.type = 'mixed_doubles') {
-                compDetails.competition.type = 'doubles';
-            }
+            // if (compDetails.competition.type = 'mixed_doubles') {
+            //     compDetails.competition.type = 'doubles';
+            // }
             //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
-            category = full_tournament_name.substr(full_tournament_name.indexOf(", ")+2, full_tournament_name.length);
+            if (full_tournament_name.includes(',')) {
+            category = "-" + full_tournament_name.substr(full_tournament_name.indexOf(", "), full_tournament_name.length);
             category = category.replace(/,/g, '')
-            //round = match_details.sport_event.tournament_round.name;
-            if (compDetails.round.name) {
-                round = capitalizeFirstLetter(compDetails.round.name);
+                
             }
+            else {
+                //category = '-' + '';
+            }
+           
+            //round = match_details.sport_event.tournament_round.name;
+            if (compDetails.tournament_round) {
+                if (compDetails.tournament_round.name) {
+                    round = compDetails.tournament_round.name.replaceAll('_', ' ');
+                    round = capitalizeFirstLetter(round);
+                }
+            
+                else {
+                    round = capitalizeFirstLetter(compDetails.tournament_round.type);
+                }
+            }
+            else {
+                round = 'Group';
+            }
+            
             
             
         }
@@ -223,14 +272,14 @@ function showData(tournament) {
             }
         }
         else {
-            if (homeCompObj.players) {
-                home_country_code = homeCompObj.players[0].country_code; 
+            if (homeCompObj.country_code) {
+               // home_country_code = homeCompObj.players[0].country_code; 
             }
             else {
                 home_country_code = "N/A";
             }
-            if (awayCompObj.players){
-                away_country_code = awayCompObj.players[0].country_code;
+            if (awayCompObj.country_code){
+                //away_country_code = awayCompObj.players[0].country_code;
             }
             else{
                 away_country_code = "N/A";
@@ -281,10 +330,10 @@ function showData(tournament) {
 
                 if (category.includes('Doubles')) {
                     if (homeCompName.length > 25) {
-                        homeCompName = homeCompObj.players[0].abbreviation + ' / ' + homeCompObj.players[1].abbreviation;
+                        homeCompName = homeCompObj.abbreviation;
                     }
                     if (awayCompName.length > 25) {
-                        awayCompName = awayCompObj.players[0].abbreviation+ ' / ' + awayCompObj.players[1].abbreviation;
+                        awayCompName = awayCompObj.abbreviation;
                     }
                     
                 }
@@ -411,3 +460,14 @@ function APITimeToLocal(apitime){
     console.log("real: " + realStartTime);
     return realStartTime;
 }
+
+
+//const picker = datepicker(selector, options)
+const picker = datepicker('.datepicker', {
+    onSelect: (instance, date) => {
+      console.log("PICKED)");
+      // Do stuff when a date is selected (or unselected) on the calendar.
+      // You have access to the datepicker instance for convenience.
+    }
+  })
+  
