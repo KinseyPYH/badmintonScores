@@ -18,8 +18,26 @@
 <body>
     <h1 id="Page_Title"> Live BWF Badminton Scores</h1>
     
-    <h2 id="time"></h2>
-    <h2 id="No_Matches" style="display:none"> There are no matches at the moment.</h2>
+    <!-- <h2 id="time"></h2> -->
+    <title>jQuery UI Datepicker - Default functionality</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+    $( function() {
+      $( "#datepicker" ).datepicker({
+        onSelect: datePicked => {
+        // Show which date was selected.
+        console.log(datePicked);
+        callAPI(datePicked, false);
+  },
+      });
+    } );
+    </script>
+
+    <p>Date: <input type="text" id="datepicker"></p>
+    <h2 id="No_Matches" style="display:none"> There are no matches on this date.</h2>
     <!-- <button onclick="callAPI()">CALL API</button> -->
     
     <div class="row">
