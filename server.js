@@ -34,8 +34,8 @@ app.use(express.json());
 app.options('*', cors());
 const httpsServer = https.createServer(credentials, app);
 
-httpsServer.listen(443, () => {
-	console.log('HTTPS Server running on port 443');
+httpsServer.listen(port, () => {
+	console.log('HTTPS Server running on port ' + port);
 });
 
 
