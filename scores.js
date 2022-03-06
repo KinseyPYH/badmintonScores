@@ -10,9 +10,9 @@ var format = 'json';
 //var api_key = '5snqwectfqhnkrzc7x93tf5j';
 
 
-var apiUrl = 'http://localhost:3000'; 
+//var apiUrl = 'http://localhost:3000'; 
 
-//apiUrl = 'https://www.mybwfscores.com'; //server url
+apiUrl = 'https://www.mybwfscores.com'; //server url
 //apiUrl = 'http://18.162.188.240';
 var corsHeader = { 'Access-Control-Allow-Origin': apiUrl};
 var startTime = null;
