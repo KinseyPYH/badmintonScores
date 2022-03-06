@@ -154,8 +154,12 @@ function callAPI(currentDate, today) {
 
 function showData(tournament) {
     //$('.row').clear();
+    console.log(tournament)
     var tours = tournament;
-    tours = tours.results;
+    //tours = tours.results;
+    if(tours.results) {
+        tours = tours.results
+    }
     console.log(tours);
     console.log("CALLED SHOW DATA");
     $('.row').empty();
@@ -168,264 +172,272 @@ function showData(tournament) {
     }
     console.log(tours);
     for (var tour in tours) {
-        var match_details;
-        if (tours[tour].matchDetails) {
-            match_details = tours[tour].matchDetails;
+
+        try {
+
+        
+            var match_details;
+            if (tours[tour].matchDetails) {
+                match_details = tours[tour].matchDetails;
+                console.log(match_details);
+            }
+            else {
+                match_details = tours[tour];
+            }
+            
             console.log(match_details);
-        }
-        else {
-            match_details = tours[tour];
-        }
-        
-        console.log(match_details);
-        var full_tournament_name = "";
-        var tournament_id;
-        var tournament_name = "";
-        var category = "";
-        var round = "";
-        var competitors = "";
-        var homeCompObj = "";
-        var awayCompObj = "";
-        var home_country_code = "";
-        var away_country_code = "";
-        var scores = "";
-        var homeSetScore = "";
-        var awaySetScore = "";
-        var scoreSet1 = "";
-        var homeScore1 = "";
-        var awayScore1 = "";
-        var scoreSet2 = "";
-        var homeScore2 = "";
-        var awayScore2 = "";
-        var scoreSet3  = "";
-        var homeScore3 = "";
-        var awayScore3 = "";
-        var status = "";
-        var homeCompName = "";
-        var awayCompName = "";
-        var homeCompID = "";
-        var awayCompID = "";
-        var matchTime = "";
-        if (match_details.sport_event.scheduled) {
-            matchTime = APITimeToLocal(match_details.sport_event.scheduled);
-        }
-        // ******************
-        var compDetails = match_details.sport_event;
-        if (!compDetails.tournament) {
-            full_tournament_name = compDetails.competition.name;
-            tournament_name = full_tournament_name;
-            category = "N/A";
-            round = capitalizeFirstLetter(compDetails.round.name);
-        }
-
-        else {
-            full_tournament_name = compDetails.tournament.name;
-            
-            if (full_tournament_name.includes(',')) {
-                tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
+            var full_tournament_name = "";
+            var tournament_id;
+            var tournament_name = "";
+            var category = "";
+            var round = "";
+            var competitors = "";
+            var homeCompObj = "";
+            var awayCompObj = "";
+            var home_country_code = "";
+            var away_country_code = "";
+            var scores = "";
+            var homeSetScore = "";
+            var awaySetScore = "";
+            var scoreSet1 = "";
+            var homeScore1 = "";
+            var awayScore1 = "";
+            var scoreSet2 = "";
+            var homeScore2 = "";
+            var awayScore2 = "";
+            var scoreSet3  = "";
+            var homeScore3 = "";
+            var awayScore3 = "";
+            var status = "";
+            var homeCompName = "";
+            var awayCompName = "";
+            var homeCompID = "";
+            var awayCompID = "";
+            var matchTime = "";
+            if (match_details.sport_event.scheduled) {
+                matchTime = APITimeToLocal(match_details.sport_event.scheduled);
             }
-            else {
+            // ******************
+            var compDetails = match_details.sport_event;
+            if (!compDetails.tournament) {
+                full_tournament_name = compDetails.competition.name;
                 tournament_name = full_tournament_name;
+                category = "N/A";
+                round = capitalizeFirstLetter(compDetails.round.name);
             }
-        
-            // if (compDetails.competition.type = 'mixed_doubles') {
-            //     compDetails.competition.type = 'doubles';
-            // }
-            //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
-            if (full_tournament_name.includes(',')) {
-            category = "-" + full_tournament_name.substr(full_tournament_name.indexOf(", "), full_tournament_name.length);
-            category = category.replace(/,/g, '')
-                
-            }
+
             else {
-                //category = '-' + '';
-            }
-           
-            //round = match_details.sport_event.tournament_round.name;
-            if (compDetails.tournament_round) {
-                if (compDetails.tournament_round.name) {
-                    round = compDetails.tournament_round.name.replaceAll('_', ' ');
-                    round = capitalizeFirstLetter(round);
+                full_tournament_name = compDetails.tournament.name;
+                
+                if (full_tournament_name.includes(',')) {
+                    tournament_name = full_tournament_name.substr(0,full_tournament_name.indexOf(','));
                 }
-            
                 else {
-                    round = capitalizeFirstLetter(compDetails.tournament_round.type);
+                    tournament_name = full_tournament_name;
                 }
-            }
-            else {
-                round = 'Group';
-            }
             
-            
-            
-        }
-        competitors = match_details.sport_event.competitors;
-        homeCompObj = competitors[0];
-        awayCompObj = competitors[1];
-        homeCompName = homeCompObj.name;
-        awayCompName = awayCompObj.name;
-        if (category.includes('Singles')) {
-            home_country_code = homeCompObj.country_code;
-            away_country_code = awayCompObj.country_code;
-            if (category == 'Singles') {
-                category = "Men Singles";
-            }
-        }
-        else {
-            if (homeCompObj.country_code) {
-               // home_country_code = homeCompObj.players[0].country_code; 
-            }
-            else {
-                home_country_code = "N/A";
-            }
-            if (awayCompObj.country_code){
-                //away_country_code = awayCompObj.players[0].country_code;
-            }
-            else{
-                away_country_code = "N/A";
-            }
-            if (category == "Doubles") {
-                category = "Men Doubles";
-            }
-        }
-        //***** */
-
-        if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live" || match_details.sport_event_status.status == "finished" || match_details.sport_event_status.status == "ended") {
-            console.log("closed... or live");
-            if (match_details.sport_event_status.status == "closed") {
-                match_details.sport_event_status.status = "finished";
-            }
-            status = capitalizeFirstLetter(match_details.sport_event_status.status);
-
-            if (match_details.sport_event_status.winning_reason != "walkover") {
-                scores = match_details.sport_event_status.period_scores;
-                homeSetScore = match_details.sport_event_status.home_score;
-                awaySetScore = match_details.sport_event_status.away_score;
-                scoreSet1 = scores[0];
-                homeScore1 = scoreSet1.home_score;
-                awayScore1 = scoreSet1.away_score;
-                scoreSet2 = scores[1] ?? null;
-                homeScore2 = "";
-                awayScore2 = "";
-                if (scoreSet2 != null) {
-                homeScore2 = scoreSet2.home_score;
-                awayScore2 = scoreSet2.away_score;
-                }
-                scoreSet3 = scores[2] ?? null;
-                homeScore3 = "";
-                awayScore3 = "";
-                if (scoreSet3 != null) {
-                    homeScore3 = scoreSet3.home_score
-                    awayScore3 = scoreSet3.away_score 
-                }
-
-                if (category.includes('Singles')) {
-                    if (homeCompName.length > 25) {
-                        homeCompName = homeCompObj.abbreviation;
-                    }
-                    if (awayCompName.length > 25) {
-                        awayCompName = awayCompObj.abbreviation;
-                    }
-                }
-
-                if (category.includes('Doubles')) {
-                    if (homeCompName.length > 25) {
-                        homeCompName = homeCompObj.abbreviation;
-                    }
-                    if (awayCompName.length > 25) {
-                        awayCompName = awayCompObj.abbreviation;
-                    }
+                // if (compDetails.competition.type = 'mixed_doubles') {
+                //     compDetails.competition.type = 'doubles';
+                // }
+                //category = capitalizeFirstLetter(compDetails.competition.gender) + " " + capitalizeFirstLetter(compDetails.competition.type);
+                if (full_tournament_name.includes(',')) {
+                category = "-" + full_tournament_name.substr(full_tournament_name.indexOf(", "), full_tournament_name.length);
+                category = category.replace(/,/g, '')
                     
+                }
+                else {
+                    //category = '-' + '';
+                }
+            
+                //round = match_details.sport_event.tournament_round.name;
+                if (compDetails.tournament_round) {
+                    if (compDetails.tournament_round.name) {
+                        round = compDetails.tournament_round.name.replaceAll('_', ' ');
+                        round = capitalizeFirstLetter(round);
+                    }
+                
+                    else {
+                        round = capitalizeFirstLetter(compDetails.tournament_round.type);
+                    }
+                }
+                else {
+                    round = 'Group';
                 }
                 
+                
+                
             }
-            else if (match_details.sport_event_status.match_status == "walkover" || match_details.sport_event_status.winning_reason == "walkover") {
-                status = "Walkover";
+            competitors = match_details.sport_event.competitors;
+            homeCompObj = competitors[0];
+            awayCompObj = competitors[1];
+            homeCompName = homeCompObj.name;
+            awayCompName = awayCompObj.name;
+            if (category.includes('Singles')) {
+                home_country_code = homeCompObj.country_code;
+                away_country_code = awayCompObj.country_code;
+                if (category == 'Singles') {
+                    category = "Men Singles";
+                }
             }
+            else {
+                if (homeCompObj.country_code) {
+                // home_country_code = homeCompObj.players[0].country_code; 
+                }
+                else {
+                    home_country_code = "N/A";
+                }
+                if (awayCompObj.country_code){
+                    //away_country_code = awayCompObj.players[0].country_code;
+                }
+                else{
+                    away_country_code = "N/A";
+                }
+                if (category == "Doubles") {
+                    category = "Men Doubles";
+                }
+            }
+            //***** */
 
-        }    
+            if (match_details.sport_event_status.status == "closed" || match_details.sport_event_status.status == "live" || match_details.sport_event_status.status == "finished" || match_details.sport_event_status.status == "ended") {
+                console.log("closed... or live");
+                if (match_details.sport_event_status.status == "closed") {
+                    match_details.sport_event_status.status = "finished";
+                }
+                status = capitalizeFirstLetter(match_details.sport_event_status.status);
 
-        else if (match_details.sport_event_status.status == 'cancelled' ) { 
-            status = "Cancelled"; 
-        }
+                if (match_details.sport_event_status.winning_reason != "walkover") {
+                    scores = match_details.sport_event_status.period_scores;
+                    homeSetScore = match_details.sport_event_status.home_score;
+                    awaySetScore = match_details.sport_event_status.away_score;
+                    scoreSet1 = scores[0];
+                    homeScore1 = scoreSet1.home_score;
+                    awayScore1 = scoreSet1.away_score;
+                    scoreSet2 = scores[1] ?? null;
+                    homeScore2 = "";
+                    awayScore2 = "";
+                    if (scoreSet2 != null) {
+                    homeScore2 = scoreSet2.home_score;
+                    awayScore2 = scoreSet2.away_score;
+                    }
+                    scoreSet3 = scores[2] ?? null;
+                    homeScore3 = "";
+                    awayScore3 = "";
+                    if (scoreSet3 != null) {
+                        homeScore3 = scoreSet3.home_score
+                        awayScore3 = scoreSet3.away_score 
+                    }
 
+                    if (category.includes('Singles')) {
+                        if (homeCompName.length > 25) {
+                            homeCompName = homeCompObj.abbreviation;
+                        }
+                        if (awayCompName.length > 25) {
+                            awayCompName = awayCompObj.abbreviation;
+                        }
+                    }
 
-        else if ( match_details.sport_event_status.status == "not_started" ) {
-            status = "Not Started";
-        }
-
-        else{}
-          
-    
-        
-        
-            // var competitors = match_details.sport_event.competitors;
-            // var homeCompObj = competitors[0];
-            // var awayCompObj = competitors[1];
-            
-            // if (compDetails.competition.type == 'doubles') {
-            
-         
-            
-            // var homeCompName = homeCompObj.name;
-            // var awayCompName = awayCompObj.name;
-            
-           
-            
-            // var scoreSet3;
-            
-            // console.log(tours[tour].sport_event.competitors);
-            // console.log(tours[tour].sport_event_status.period_scores);
-            // console.log('-----------------------------------------');
-            //$(".card #name1").innerHTML(tours[tour].sport_event.competitors[0].name);
-            //$('.card ')
-        var matchCard = `<div class="column">` +
-            `<div class="card">` +
-                `<table>` +
-                    `<h2> ${tournament_name} </h2>` +
-                    `<h3> ${round}  ${category} </h3>` +
-                    
-                    `<thead>` +
-                    `<tr>` +
-                        `<th></th>` +
-                        `<th></th>` +
-                        `<th>1</th>` +
-                        `<th>2</th>` +
-                        `<th>3</th>` +
-                        `<th>Final</th>` +
-                    `</tr>` +
-                    `</thead>` +
-                    `<tbody>` +
-                    `<tr>` +
-                        `<td data-th="CTR"> ${home_country_code} </td>` +
-                        `<td data-th="Comp">` +
-                        `<span class="long">${homeCompName}</span>` +
+                    if (category.includes('Doubles')) {
+                        if (homeCompName.length > 25) {
+                            homeCompName = homeCompObj.abbreviation;
+                        }
+                        if (awayCompName.length > 25) {
+                            awayCompName = awayCompObj.abbreviation;
+                        }
                         
-                        `</td>` +
-                        `<td data-th="1">${homeScore1}</td>` +
-                        `<td data-th="2">${homeScore2}</td>` +
-                        `<td data-th="3">${homeScore3}</td>` +
-                        `<td data-th="Final">${homeSetScore}</td>` +
-                    `</tr>` +
-                    `<tr>` +
-                        `<td data-th="CTR"> ${away_country_code} </td>` +
-                        `<td data-th="Comp">` +
-                        `<span class="long">${awayCompName}</span>`+
-                        `</td>`+
-                        `<td data-th="1">${awayScore1}</td>` +
-                        `<td data-th="2">${awayScore2}</td>` +
-                        `<td data-th="3">${awayScore3}</td>` +
-                        `<td data-th="Final">${awaySetScore}</td>` +
-                    `</tr>` +
-                    `</tbody>` +
+                    }
                     
-                `</table>` +
-                // `<h4> ${startTime} - ${status} </h4>` +
-                `<h4> ${matchTime} - ${status} </h4>` +
-            `</div>` +
-        `</div>`;
+                }
+                else if (match_details.sport_event_status.match_status == "walkover" || match_details.sport_event_status.winning_reason == "walkover") {
+                    status = "Walkover";
+                }
 
-        $('.row').append(matchCard);
+            }    
+
+            else if (match_details.sport_event_status.status == 'cancelled' ) { 
+                status = "Cancelled"; 
+            }
+
+
+            else if ( match_details.sport_event_status.status == "not_started" ) {
+                status = "Not Started";
+            }
+
+            else{}
+            
+        
+            
+            
+                // var competitors = match_details.sport_event.competitors;
+                // var homeCompObj = competitors[0];
+                // var awayCompObj = competitors[1];
+                
+                // if (compDetails.competition.type == 'doubles') {
+                
+            
+                
+                // var homeCompName = homeCompObj.name;
+                // var awayCompName = awayCompObj.name;
+                
+            
+                
+                // var scoreSet3;
+                
+                // console.log(tours[tour].sport_event.competitors);
+                // console.log(tours[tour].sport_event_status.period_scores);
+                // console.log('-----------------------------------------');
+                //$(".card #name1").innerHTML(tours[tour].sport_event.competitors[0].name);
+                //$('.card ')
+            var matchCard = `<div class="column">` +
+                `<div class="card">` +
+                    `<table>` +
+                        `<h2> ${tournament_name} </h2>` +
+                        `<h3> ${round}  ${category} </h3>` +
+                        
+                        `<thead>` +
+                        `<tr>` +
+                            `<th></th>` +
+                            `<th></th>` +
+                            `<th>1</th>` +
+                            `<th>2</th>` +
+                            `<th>3</th>` +
+                            `<th>Final</th>` +
+                        `</tr>` +
+                        `</thead>` +
+                        `<tbody>` +
+                        `<tr>` +
+                            `<td data-th="CTR"> ${home_country_code} </td>` +
+                            `<td data-th="Comp">` +
+                            `<span class="long">${homeCompName}</span>` +
+                            
+                            `</td>` +
+                            `<td data-th="1">${homeScore1}</td>` +
+                            `<td data-th="2">${homeScore2}</td>` +
+                            `<td data-th="3">${homeScore3}</td>` +
+                            `<td data-th="Final">${homeSetScore}</td>` +
+                        `</tr>` +
+                        `<tr>` +
+                            `<td data-th="CTR"> ${away_country_code} </td>` +
+                            `<td data-th="Comp">` +
+                            `<span class="long">${awayCompName}</span>`+
+                            `</td>`+
+                            `<td data-th="1">${awayScore1}</td>` +
+                            `<td data-th="2">${awayScore2}</td>` +
+                            `<td data-th="3">${awayScore3}</td>` +
+                            `<td data-th="Final">${awaySetScore}</td>` +
+                        `</tr>` +
+                        `</tbody>` +
+                        
+                    `</table>` +
+                    // `<h4> ${startTime} - ${status} </h4>` +
+                    `<h4> ${matchTime} - ${status} </h4>` +
+                `</div>` +
+            `</div>`;
+
+            $('.row').append(matchCard);
+        }
+        catch {
+            continue
+        }
         
     }
 }
