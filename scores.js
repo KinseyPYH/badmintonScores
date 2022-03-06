@@ -475,11 +475,11 @@ function APITimeToLocal(apitime){
 
 
 //const picker = datepicker(selector, options)
-const picker = datepicker('.datepicker', {
-    onSelect: (instance, date) => {
-      console.log("PICKED)");
-      // Do stuff when a date is selected (or unselected) on the calendar.
-      // You have access to the datepicker instance for convenience.
-    }
-  })
+// const picker = datepicker('.datepicker', {
+//     onSelect: (instance, date) => {
+//       console.log("PICKED)");
+//       // Do stuff when a date is selected (or unselected) on the calendar.
+//       // You have access to the datepicker instance for convenience.
+//     }
+//   })
   
