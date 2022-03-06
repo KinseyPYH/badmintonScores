@@ -6,7 +6,7 @@ var format = 'json';
 var api_key = 'gjkugkmygmrw4u794jq8dwvv';
 
 var apiUrl = `https://api.sportradar.com/badminton/${access_level}/v${version}/${language_code}/schedules/${APIyear}-${APImonth}-${APIday}/summaries.${format}?api_key=${api_key}`;
-
+var mongoURL = 'mongodb+srv://Kinsey_123Admin:KX66981833$@cluster0.1zg8c.mongodb.net/test';
 
 var port = 443;
 var usersOnClient = 0;
