@@ -24,6 +24,12 @@ const credentials = {
 	ca: ca
 };
 
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+var util= require('util');
+const utf8Encoder = new util.TextEncoder();
+const utf8Decoder = new util.TextDecoder("utf-8", { ignoreBOM: true });
+const { MongoClient } = require("mongodb");
 var express = require("express");
 const cors = require('cors');
 var bodyParser = require('body-parser')
